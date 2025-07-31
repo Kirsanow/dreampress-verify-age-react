@@ -1,0 +1,383 @@
+@import "tailwindcss";
+
+/* Custom Font - Pangram */
+@font-face {
+  font-family: "Pangram";
+  src: url("/fonts/Pangram-Regular.woff2") format("woff2"),
+    url("/fonts/Pangram-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pangram";
+  src: url("/fonts/Pangram-Medium.woff2") format("woff2"),
+    url("/fonts/Pangram-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pangram";
+  src: url("/fonts/Pangram-Bold.woff2") format("woff2"),
+    url("/fonts/Pangram-Bold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pangram";
+  src: url("/fonts/Pangram-Black.woff2") format("woff2"),
+    url("/fonts/Pangram-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom theme variables for Tailwind v4 */
+@theme {
+  --color-dreampress-primary: rgb(255, 0, 64);
+  --color-dreampress-secondary: rgb(233, 24, 77);
+  --color-app-bg: #131212;
+  --color-purple-primary: #8d56ff;
+  --color-purple-secondary: #773ef0;
+  --color-purple-accent: #7357ff;
+  --color-cyan-accent: #2ebac6;
+
+  --font-family-sans: "Pangram", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-fade-in: fadeIn 0.5s ease-out;
+  --animate-slide-up: slideUp 0.3s ease-out;
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+/* Custom keyframes */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+/* Background gradient effects */
+.gradient-bg {
+  background: var(--color-app-bg);
+  position: relative;
+  overflow: hidden;
+  /* Smooth gradient rendering */
+  image-rendering: optimizeQuality;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Noise overlay to reduce banding */
+.gradient-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: repeating-radial-gradient(
+      circle at 0 0,
+      transparent 0,
+      var(--color-app-bg) 2px,
+      transparent 4px
+    ),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      var(--color-app-bg) 0,
+      transparent 2px,
+      var(--color-app-bg) 4px
+    );
+  background-size: 25px 25px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Top right - large purple gradient */
+.gradient-orb-1 {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  right: -300px;
+  top: -300px;
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at center,
+    var(--color-purple-primary) 0%,
+    var(--color-purple-secondary) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(100px);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  animation: var(--animate-float) 20s ease-in-out infinite;
+}
+
+/* Bottom left - medium purple accent */
+.gradient-orb-2 {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  left: -250px;
+  bottom: -250px;
+  opacity: 0.5;
+  background: radial-gradient(
+    circle at center,
+    var(--color-purple-accent) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(80px);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  animation: var(--animate-float) 15s ease-in-out infinite reverse;
+}
+
+/* Bottom right - cyan accent */
+.gradient-orb-3 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  right: -200px;
+  bottom: -200px;
+  opacity: 0.4;
+  background: radial-gradient(
+    circle at center,
+    var(--color-cyan-accent) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(80px);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  animation: var(--animate-float) 18s ease-in-out infinite;
+}
+
+/* Custom utilities */
+.glass-effect {
+  background: rgba(42, 42, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Brand card style with gradient border */
+.brand-card {
+  background: #25262d;
+  border-radius: 32px;
+  box-shadow: 0px 2px 4px rgba(17, 12, 34, 0.12);
+  position: relative;
+  overflow: hidden;
+  padding: 1px;
+}
+
+/* Gradient border effect */
+.brand-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 32px;
+  background: linear-gradient(135deg, #764cae 0%, #f6d5de 100%);
+  z-index: -1;
+}
+
+/* Inner content with background */
+.brand-card-inner {
+  background: #25262d;
+  border-radius: 31px;
+  padding: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    var(--color-dreampress-primary),
+    var(--color-dreampress-secondary)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Primary button style from Bubble app */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #e43662 0%, #e7597d 100%);
+  box-shadow: 0 4px 20px rgba(228, 54, 98, 0.25);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 343px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle gradient shine effect */
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(228, 54, 98, 0.3);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 12px rgba(228, 54, 98, 0.2);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(228, 54, 98, 0.15);
+}
+
+.btn-primary:disabled::before {
+  display: none;
+}
+
+/* Professional Face Guide Overlay - Stripe Style */
+.face-guide-container {
+  position: relative;
+  width: 200px;
+  height: 240px;
+}
+
+.face-guide-oval {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.face-guide-border {
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: 
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+
+/* Center positioning dot */
+.face-guide-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Animation for professional feel */
+.face-guide-border {
+  animation: face-guide-pulse 3s ease-in-out infinite;
+}
+
+@keyframes face-guide-pulse {
+  0%, 100% {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      0 0 0 1px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 
+      0 0 0 1px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+      0 0 10px rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Brand-colored version for successful detection (optional) */
+.face-guide-border.detected {
+  border-color: rgba(74, 222, 128, 0.6);
+  animation: face-guide-success 2s ease-in-out infinite;
+}
+
+@keyframes face-guide-success {
+  0%, 100% {
+    border-color: rgba(74, 222, 128, 0.6);
+    box-shadow: 
+      0 0 0 1px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(74, 222, 128, 0.2);
+  }
+  50% {
+    border-color: rgba(74, 222, 128, 0.8);
+    box-shadow: 
+      0 0 0 1px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(74, 222, 128, 0.3),
+      0 0 15px rgba(74, 222, 128, 0.2);
+  }
+}

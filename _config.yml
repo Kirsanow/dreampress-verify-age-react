@@ -1,0 +1,10 @@
+# GitHub Pages Configuration
+title: DreamPress Age Verification
+description: Age verification service for DreamPress
+
+# Build settings
+theme: null
+
+# Custom domain
+# This will be configured after DNS setup
+# domain: verify.dreampress.ai

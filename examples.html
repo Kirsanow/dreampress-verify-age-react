@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Estimator Examples - Universal Verify</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous">
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+</head>
+<body class="font-sans bg-gradient-to-r from-blue-50 to-indigo-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm w-full">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center text-2xl text-blue-600">
+                    <a href="https://universalverify.com" class="font-bold">Universal Verify</a>
+                </div>
+                <div class="md:flex items-center space-x-8">
+                    <a href="https://github.com/universal-verify/age-estimator" class="text-gray-700 hover:text-blue-600">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="pt-8 pb-12">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">Integration Examples</h1>
+                <p class="text-lg text-gray-600">Check out the examples below to see how you can integrate the age estimator into your website.</p>
+            </div>
+
+            <!-- Integration Methods -->
+            <div class="space-y-8">
+                <!-- Dropin Method -->
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-code text-3xl text-blue-600 mr-4"></i>
+                        <h2 class="text-2xl font-semibold">Drop-in Script</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        By using the drop-in script, you can add age verification to your website without having to write any code.
+                    </p>
+                    <div class="space-y-4 mb-6">
+                        <label class="block">
+                            <span class="text-gray-700 font-medium">Select minimum age requirement for this demo:</span>
+                            <div class="mt-2 flex items-center">
+                                <input type="number" min="13" max="100" value="18" 
+                                    class="w-24 rounded-md border-2 border-gray-200 shadow-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white px-1 py-1" 
+                                    id="dropin-age">
+                                <span class="ml-2 text-gray-500">years old</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="mt-6">
+                        <a href="./examples/dropin-demo.html" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors" id="dropin-demo-link">
+                            View Drop-in Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Popup Method -->
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-window-maximize text-3xl text-blue-600 mr-4"></i>
+                        <h2 class="text-2xl font-semibold">Basic Integration</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        Opens the age estimator in a new tab while keeping your website open in the background. 
+                        The estimated age will be sent back to your website via postMessage handled by the age-estimator module when complete.
+                    </p>
+                    <div class="space-y-4 mb-6">
+                        <label class="block">
+                            <span class="text-gray-700 font-medium">Select minimum age requirement for this demo:</span>
+                            <div class="mt-2 flex items-center">
+                                <input type="number" min="13" max="100" value="18" 
+                                    class="w-24 rounded-md border-2 border-gray-200 shadow-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white px-1 py-1" 
+                                    id="new-tab-age">
+                                <span class="ml-2 text-gray-500">years old</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="mt-6">
+                        <a href="./examples/basic-demo.html" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors" id="new-tab-demo-link">
+                            View Basic Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cache Method -->
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-solid fa-clock text-3xl text-blue-600 mr-4"></i>
+                        <h2 class="text-2xl font-semibold">Cache Enabled</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        By enabling caching, users can avoid going through the age estimation process multiple times within the period you specify (30 seconds for this demo). Cache is accessible from all web pages using the same origin.
+                    </p>
+                    <div class="space-y-4 mb-6">
+                        <label class="block">
+                            <span class="text-gray-700 font-medium">Select minimum age requirement for this demo:</span>
+                            <div class="mt-2 flex items-center">
+                                <input type="number" min="13" max="100" value="18" 
+                                    class="w-24 rounded-md border-2 border-gray-200 shadow-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white px-1 py-1" 
+                                    id="cache-age">
+                                <span class="ml-2 text-gray-500">years old</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="mt-6">
+                        <a href="./examples/cache-demo.html" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors" id="cache-demo-link">
+                            View Cache Enabled Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Liveness Check Method -->
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-camera text-3xl text-blue-600 mr-4"></i>
+                        <h2 class="text-2xl font-semibold">Liveness Check</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        Verify user's presence and prevent image spoofing attempts with our liveness detection feature. 
+                        This integration includes both age estimation and liveness verification in a single flow.
+                    </p>
+                    <div class="space-y-4 mb-6">
+                        <label class="block">
+                            <span class="text-gray-700 font-medium">Select minimum age requirement for this demo:</span>
+                            <div class="mt-2 flex items-center">
+                                <input type="number" min="13" max="100" value="18" 
+                                    class="w-24 rounded-md border-2 border-gray-200 shadow-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white px-1 py-1" 
+                                    id="liveness-age">
+                                <span class="ml-2 text-gray-500">years old</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="mt-6">
+                        <a href="./examples/liveness-demo.html" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors" id="liveness-demo-link">
+                            View Liveness Check Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center mt-12">
+                <p class="text-gray-600">Maintained by <a href="https://universalverify.com" class="text-blue-600 hover:text-blue-700" target="_blank">Universal Verify</a></p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Update demo links with age parameters
+        function updateDemoLinks() {
+            const dropinAge = document.getElementById('dropin-age').value;
+            const newTabAge = document.getElementById('new-tab-age').value;
+            const cacheAge = document.getElementById('cache-age').value;
+            const livenessAge = document.getElementById('liveness-age').value;
+            
+            document.getElementById('dropin-demo-link').href = `./examples/dropin-demo.html?minAge=${dropinAge}`;
+            document.getElementById('new-tab-demo-link').href = `./examples/basic-demo.html?minAge=${newTabAge}`;
+            document.getElementById('cache-demo-link').href = `./examples/cache-demo.html?minAge=${cacheAge}`;
+            document.getElementById('liveness-demo-link').href = `./examples/liveness-demo.html?minAge=${livenessAge}`;
+        }
+
+        // Add event listeners to age inputs
+        document.getElementById('dropin-age').addEventListener('change', updateDemoLinks);
+        document.getElementById('new-tab-age').addEventListener('change', updateDemoLinks);
+        document.getElementById('cache-age').addEventListener('change', updateDemoLinks);
+        document.getElementById('liveness-age').addEventListener('change', updateDemoLinks);
+
+        // Initialize links
+        updateDemoLinks();
+    </script>
+</body>
+</html> 
