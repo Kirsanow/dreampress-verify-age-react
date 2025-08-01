@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-  base: '/',
+  base: '/dreampress-verify-age-react/',
   assetsInlineLimit: 0,
   build: {
     outDir: 'dist',

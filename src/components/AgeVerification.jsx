@@ -36,10 +36,10 @@ export default function AgeVerification({ onComplete, enableRedirect = false }) 
     setStatus("Loading AI models...");
     try {
       await Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-        faceapi.nets.ageGenderNet.loadFromUri("/models"),
-        faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
-        faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+        faceapi.nets.tinyFaceDetector.loadFromUri(`${import.meta.env.BASE_URL}models`),
+        faceapi.nets.ageGenderNet.loadFromUri(`${import.meta.env.BASE_URL}models`),
+        faceapi.nets.faceRecognitionNet.loadFromUri(`${import.meta.env.BASE_URL}models`),
+        faceapi.nets.faceLandmark68Net.loadFromUri(`${import.meta.env.BASE_URL}models`),
       ]);
       setModelsLoaded(true);
       setStatus("Ready for verification");
@@ -158,8 +158,8 @@ export default function AgeVerification({ onComplete, enableRedirect = false }) 
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: "user",
-          width: { ideal: 640 },
-          height: { ideal: 480 },
+          width: { min: 320, ideal: 640, max: 1280 },
+          height: { min: 240, ideal: 480, max: 720 },
         },
       });
       console.log("Camera stream obtained:", stream);
@@ -222,11 +222,14 @@ export default function AgeVerification({ onComplete, enableRedirect = false }) 
       
       console.log(`Head detection - leftRatio: ${leftRatio.toFixed(2)}, rightRatio: ${rightRatio.toFixed(2)}`);
       
-      // More lenient thresholds for better detection
-      if (leftRatio < 0.4) {
-        return "right"; // Nose closer to left edge means head turned right
-      } else if (rightRatio < 0.4) {
-        return "left"; // Nose closer to right edge means head turned left
+      // Much more lenient thresholds for mobile-friendly detection
+      // Detection works on original stream (mirrored), but display is unmirrored for UX
+      console.log(`Face width: ${faceWidth}, noseToLeft: ${noseToLeft}, noseToRight: ${noseToRight}`);
+      
+      if (leftRatio < 0.2) {
+        return "right"; // Nose closer to left edge means head turned right (in mirrored coordinates)
+      } else if (rightRatio < 0.2) {
+        return "left"; // Nose closer to right edge means head turned left (in mirrored coordinates)  
       } else {
         return "straight"; // Nose roughly centered
       }
@@ -271,15 +274,15 @@ export default function AgeVerification({ onComplete, enableRedirect = false }) 
         await new Promise(resolve => setTimeout(resolve, 2000));
         
         let correctPositionCount = 0;
-        const requiredCorrectCount = 3; // Need 3 consecutive correct detections
+        const requiredCorrectCount = 2; // Need 2 consecutive correct detections (more forgiving)
         
-        // Check head position multiple times over 2 seconds
+        // Check head position multiple times with more tolerance
         let faceNotFoundCount = 0;
-        const maxFaceNotFoundCount = 2; // Allow 2 failed detections out of 5
+        const maxFaceNotFoundCount = 3; // Allow 3 failed detections out of 6 (more forgiving)
         
-        for (let check = 0; check < 5; check++) {
+        for (let check = 0; check < 6; check++) {
           const currentDetections = await faceapi
-            .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.3 }))
+            .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.2 }))
             .withFaceLandmarks()
             .withFaceDescriptors();
 
@@ -302,7 +305,7 @@ export default function AgeVerification({ onComplete, enableRedirect = false }) 
           const currentDescriptor = currentDetections[0].descriptor;
           const distance = faceapi.euclideanDistance(initialDescriptor, currentDescriptor);
           
-          if (distance > 0.8) { // Increased threshold for head movements
+          if (distance > 0.9) { // Very lenient threshold for mobile head movements
             setStatus("Different face detected - liveness check failed");
             return false;
           }
@@ -317,7 +320,7 @@ export default function AgeVerification({ onComplete, enableRedirect = false }) 
             correctPositionCount++;
             console.log(`✓ Correct position detected! Count now: ${correctPositionCount}`);
           } else {
-            correctPositionCount = Math.max(0, correctPositionCount - 1); // Penalize wrong positions
+            // Don't penalize wrong positions as harshly on mobile
             console.log(`✗ Wrong position. Expected ${expectedPosition}, got ${detectedPosition}`);
           }
           
@@ -325,10 +328,10 @@ export default function AgeVerification({ onComplete, enableRedirect = false }) 
           await new Promise(resolve => setTimeout(resolve, 400));
         }
         
-        // Check if user followed the instruction correctly
+        // Check if user followed the instruction correctly with more tolerance
         if (correctPositionCount < requiredCorrectCount) {
           setStatus(`Please follow the instruction: ${livenessSteps[step]}. Try again.`);
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise(resolve => setTimeout(resolve, 1500)); // Shorter wait time
           step--; // Retry this step
           continue;
         }
@@ -451,13 +454,14 @@ export default function AgeVerification({ onComplete, enableRedirect = false }) 
 
           {showCamera && (
             <div className="space-y-4">
-              <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl">
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
                   muted
-                  className="object-cover w-full h-64 bg-black/50 rounded-2xl"
+                  className="object-cover w-full h-64 bg-black/50"
+                  style={{ transform: "scaleX(-1)" }}
                 />
                 
                 {/* Hidden canvas for face detection */}
